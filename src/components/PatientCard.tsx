@@ -29,7 +29,7 @@ export default function PatientCard({patient, onPress}: PatientCardProps) {
           <View style={base.cardBottom}>
             <View style={base.cardInfo}>
               <Icon name="euro" size={15} color="grey" />
-              <Text>{patient.hourRate} per hour</Text>
+              <Text style={base.cardInfoText}>{patient.hourRate} per hour</Text>
             </View>
             <Icon name="bookmark-outline" color="grey" />
           </View>

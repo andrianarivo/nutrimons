@@ -27,6 +27,7 @@ export default StyleSheet.create({
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
+    gap: 5,
   },
   cardInfoText: {
     color: 'grey',
