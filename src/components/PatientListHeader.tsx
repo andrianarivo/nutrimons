@@ -27,10 +27,13 @@ export default function PatientDetailsHeader({
         <Text style={style.summary}>{patient.summary}</Text>
       </View>
       <View style={style.actions}>
-        <Button containerStyle={style.takeNote} size="lg">
+        <Button
+          containerStyle={style.takeNoteContainer}
+          buttonStyle={style.takeNote}
+          size="lg">
           Take note
         </Button>
-        <Button containerStyle={style.bookmark} size="lg">
+        <Button buttonStyle={style.bookmark} type="outline" size="md">
           <Icon name="bookmark-outline" />
         </Button>
       </View>
@@ -65,12 +68,15 @@ const style = StyleSheet.create({
     marginTop: 20,
     gap: 10,
   },
-  takeNote: {
+  takeNoteContainer: {
     flex: 1,
+  },
+  takeNote: {
     borderRadius: 15,
   },
   bookmark: {
     borderRadius: 12,
+    borderWidth: 2,
   },
   tab: {
     marginTop: 10,

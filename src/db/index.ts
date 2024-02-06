@@ -11,32 +11,38 @@ const patients = [
     hourRate: 25,
     notes: [
       {
-        date: '2021-01-01',
+        id: 1,
+        date: '2024-02-06T18:55:00.000Z',
         title: 'First visit',
         description: 'First visit to the doctor',
         duration: 7,
-        prescription: [
+        prescriptions: [
           {
+            id: 1,
             name: 'Paracetamol',
             dosage: '1 pill every 8 hours',
           },
           {
+            id: 2,
             name: 'Ibuprofen',
             dosage: '1 pill every 12 hours',
           },
         ],
       },
       {
-        date: '2021-01-01',
+        id: 2,
+        date: '2024-02-06T18:55:00.000Z',
         title: 'Second visit',
         description: 'Second visit to the doctor',
         duration: 10,
-        prescription: [
+        prescriptions: [
           {
+            id: 1,
             name: 'Paracetamol',
             dosage: '1 pill every 8 hours',
           },
           {
+            id: 2,
             name: 'Ibuprofen',
             dosage: '1 pill every 12 hours',
           },
@@ -56,16 +62,19 @@ const patients = [
     hourRate: 25,
     notes: [
       {
-        date: '2021-01-01',
+        id: 3,
+        date: '2024-02-06T18:55:00.000Z',
         title: 'First visit',
         description: 'First visit to the doctor',
         duration: 10,
-        prescription: [
+        prescriptions: [
           {
+            id: 1,
             name: 'Paracetamol',
             dosage: '1 pill every 8 hours',
           },
           {
+            id: 2,
             name: 'Ibuprofen',
             dosage: '1 pill every 12 hours',
           },

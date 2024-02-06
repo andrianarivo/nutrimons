@@ -17,7 +17,10 @@ interface PatientDetailsProp {
   route: PatientDetailsNavigationProps['route'];
 }
 
-export default function PatientDetails({route}: PatientDetailsProp) {
+export default function PatientDetails({
+  route,
+  navigation,
+}: PatientDetailsProp) {
   const patient =
     db.patients.find(it => it.id === route.params.id) || db.patients[0];
   return (
@@ -26,7 +29,14 @@ export default function PatientDetails({route}: PatientDetailsProp) {
       data={patient.notes}
       numColumns={2}
       ListHeaderComponent={<PatientDetailsHeader patient={patient} />}
-      renderItem={({item}) => <NoteCard note={item} />}
+      renderItem={({item}) => (
+        <NoteCard
+          note={item}
+          onPress={() => {
+            navigation.navigate('NoteForm', {note: item});
+          }}
+        />
+      )}
     />
   );
 }
