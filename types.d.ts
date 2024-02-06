@@ -14,6 +14,7 @@ export interface Note {
   date: string;
   title: string;
   description: string;
+  duration: number;
   prescription: Prescription[];
 }
 

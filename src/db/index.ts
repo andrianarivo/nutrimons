@@ -14,6 +14,23 @@ const patients = [
         date: '2021-01-01',
         title: 'First visit',
         description: 'First visit to the doctor',
+        duration: 7,
+        prescription: [
+          {
+            name: 'Paracetamol',
+            dosage: '1 pill every 8 hours',
+          },
+          {
+            name: 'Ibuprofen',
+            dosage: '1 pill every 12 hours',
+          },
+        ],
+      },
+      {
+        date: '2021-01-01',
+        title: 'Second visit',
+        description: 'Second visit to the doctor',
+        duration: 10,
         prescription: [
           {
             name: 'Paracetamol',
@@ -42,6 +59,7 @@ const patients = [
         date: '2021-01-01',
         title: 'First visit',
         description: 'First visit to the doctor',
+        duration: 10,
         prescription: [
           {
             name: 'Paracetamol',

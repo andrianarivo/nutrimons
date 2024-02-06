@@ -5,6 +5,7 @@ import db from '../db';
 import {RootStackParamList} from '../../App';
 import {StackScreenProps} from '@react-navigation/stack';
 import base from '../styles';
+import NoteCard from '../components/NoteCard';
 
 type PatientDetailsNavigationProps = StackScreenProps<
   RootStackParamList,
@@ -47,6 +48,12 @@ export default function PatientDetails({route}: PatientDetailsProp) {
         <Tab.Item>All</Tab.Item>
         <Tab.Item>Bookmarked</Tab.Item>
       </Tab>
+
+      <View>
+        {patient.notes.map((note, i) => (
+          <NoteCard key={i} note={note} />
+        ))}
+      </View>
     </View>
   );
 }
