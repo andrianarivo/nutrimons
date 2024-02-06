@@ -7,7 +7,7 @@ const patients = [
     height: 1.75,
     weight: 75,
     sex: 'm',
-    summary: 'Healthy young guy with no medical history. No allergies.',
+    summary: 'Healthy young guy no medical history.',
     hourRate: 25,
     notes: [
       {
@@ -35,7 +35,7 @@ const patients = [
     height: 1.75,
     weight: 75,
     sex: 'm',
-    summary: 'Healthy young guy with no medical history. No allergies.',
+    summary: 'Healthy young guy no medical history.',
     hourRate: 25,
     notes: [
       {

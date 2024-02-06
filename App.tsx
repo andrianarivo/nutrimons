@@ -1,20 +1,25 @@
 import React from 'react';
 import PatientList from './src/screens/PatientList';
-import {StyleSheet, View} from 'react-native';
+import {NavigationContainer} from '@react-navigation/native';
+import {createStackNavigator} from '@react-navigation/stack';
+import PatientDetails from './src/screens/PatientDetails';
+
+export type RootStackParamList = {
+  PatientList: undefined;
+  PatientDetails: {id: number};
+};
+
+const Stack = createStackNavigator<RootStackParamList>();
 
 function App(): React.JSX.Element {
   return (
-    <View style={style.container}>
-      <PatientList />
-    </View>
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen name="PatientList" component={PatientList} />
+        <Stack.Screen name="PatientDetails" component={PatientDetails} />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
-
-const style = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-  },
-});
 
 export default App;
