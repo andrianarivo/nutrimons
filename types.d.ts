@@ -7,4 +7,17 @@ export interface Patient {
   weight: number;
   summary: string;
   hourRate: number;
+  notes: Note[];
+}
+
+export interface Note {
+  date: string;
+  title: string;
+  description: string;
+  prescription: Prescription[];
+}
+
+export interface Prescription {
+  name: string;
+  dosage: string;
 }
