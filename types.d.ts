@@ -8,6 +8,7 @@ export interface Patient {
   summary: string;
   hourRate: number;
   notes?: Note[];
+  sex: string;
   [key: string]: any;
 }
 

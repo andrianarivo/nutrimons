@@ -25,20 +25,30 @@ const getNotes = createAsyncThunk<Note[] | undefined, number>(
   },
 );
 
+const updateNote = createAsyncThunk<
+  Note | undefined,
+  {note: Note; patientId: number}
+>('nutrimons/updateNote', async ({note, patientId}) => {
+  const idx =
+    db.patients
+      .find(p => p.id === patientId)
+      ?.notes?.findIndex(n => n.id === patientId) || 0;
+  db.patients.find(p => p.id === patientId)?.notes?.splice(idx, 1, note);
+  return Promise.resolve(note);
+});
+
+const addNote = createAsyncThunk<
+  Note | undefined,
+  {note: Note; patientId: number}
+>('nutrimons/addNote', async ({note, patientId}) => {
+  db.patients.find(p => p.id === patientId)?.notes?.push(note);
+  return Promise.resolve(note);
+});
+
 const notesSlice = createSlice({
   name: 'notes',
   initialState,
   reducers: {
-    updateNote: (state, {payload}) => ({
-      ...state,
-      noteItems: state.noteItems.map(note =>
-        note.id === payload.id ? payload : note,
-      ),
-    }),
-    addNote: (state, {payload}) => ({
-      ...state,
-      noteItems: [...state.noteItems, payload],
-    }),
     deleteNote: (state, {payload}) => ({
       ...state,
       noteItems: state.noteItems.filter(note => note.id !== payload.id),
@@ -66,8 +76,8 @@ const notesSlice = createSlice({
   },
 });
 
-export {getNotes};
+export {getNotes, updateNote, addNote};
 
-export const {updateNote, addNote} = notesSlice.actions;
+export const {deleteNote} = notesSlice.actions;
 
 export default notesSlice.reducer;

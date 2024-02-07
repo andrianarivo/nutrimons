@@ -37,12 +37,12 @@ const patients = [
         duration: 10,
         prescriptions: [
           {
-            id: 1,
+            id: 3,
             name: 'Paracetamol',
             dosage: '1 pill every 8 hours',
           },
           {
-            id: 2,
+            id: 4,
             name: 'Ibuprofen',
             dosage: '1 pill every 12 hours',
           },
@@ -69,12 +69,12 @@ const patients = [
         duration: 10,
         prescriptions: [
           {
-            id: 1,
+            id: 5,
             name: 'Paracetamol',
             dosage: '1 pill every 8 hours',
           },
           {
-            id: 2,
+            id: 6,
             name: 'Ibuprofen',
             dosage: '1 pill every 12 hours',
           },
@@ -88,6 +88,17 @@ const patients = [
         duration: 10,
       },
     ],
+  },
+  {
+    id: 3,
+    name: 'Cristian',
+    firstname: 'Cristian',
+    age: 25,
+    height: 1.75,
+    weight: 75,
+    sex: 'm',
+    summary: 'Healthy young guy no medical history.',
+    hourRate: 25,
   },
 ];
 
