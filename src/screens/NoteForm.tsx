@@ -1,5 +1,5 @@
 import {StyleSheet, View} from 'react-native';
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {RootStackParamList} from '../../App';
 import {StackScreenProps} from '@react-navigation/stack';
 import PrescriptionInput from '../components/PrescriptionInput';
@@ -7,9 +7,15 @@ import {FlatList} from 'react-native-gesture-handler';
 import NoteFormHeader from '../components/NoteFormHeader';
 import NoteFormFooter from '../components/NoteFormFooter';
 import {Button} from '@rneui/themed';
-import db from '../db';
 import {addNote, updateNote} from '../redux/notes/notesSlice';
 import {useAppDispatch} from '../hooks';
+import {useSelector} from 'react-redux';
+import {selectPatients, selectPrescriptions} from '../redux/store';
+import {
+  addPrescription,
+  getPrescriptions,
+  updatePrescription,
+} from '../redux/prescriptions/prescriptionsSlice';
 
 type NoteFormNavigationProps = StackScreenProps<RootStackParamList, 'NoteForm'>;
 
@@ -21,8 +27,14 @@ interface NoteFormProp {
 export default function NoteForm({route}: NoteFormProp) {
   const originalNote = route.params.note;
   const patientId = route.params.patientId;
-  const [note, setNote] = React.useState(originalNote);
+  const [note, setNote] = useState(originalNote);
+  const {patientItems} = useSelector(selectPatients);
+  const {prescriptionItems} = useSelector(selectPrescriptions);
   const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(getPrescriptions({patientId, noteId: originalNote.id}));
+  }, [dispatch, patientId, originalNote.id]);
 
   const handleChangeDate = (date: Date) => {
     note.date = date.toISOString();
@@ -40,37 +52,36 @@ export default function NoteForm({route}: NoteFormProp) {
   };
 
   const handleChangePrescription = (e: string, name: string, id: number) => {
-    setNote(prev => {
-      const newNote = {...prev};
-      if (newNote.prescriptions) {
-        newNote.prescriptions[id][name] = e;
-      }
-      return newNote;
-    });
+    const newPrescription = {
+      ...prescriptionItems[id],
+      [name]: e,
+    };
+    dispatch(updatePrescription(newPrescription));
   };
 
   const addNewPrescription = () => {
-    setNote(prev => {
-      const newNote = {...prev};
-      newNote.prescriptions?.push({
-        name: '',
-        dosage: '',
-        id: prev.prescriptions?.length ?? 0,
-      });
-      return newNote;
-    });
+    const newPrescription = {
+      id: prescriptionItems.length + 1,
+      name: '',
+      dosage: '',
+    };
+    dispatch(addPrescription(newPrescription));
   };
 
   const onSubmit = () => {
-    const patientIdx = db.patients.findIndex(it => it.id === patientId);
-    if (patientIdx) {
-      const target = db.patients[patientIdx]?.notes.findIndex(
+    const patientIdx = patientItems.findIndex(it => it.id === patientId);
+    const newNote = {
+      ...note,
+      prescriptions: [...prescriptionItems],
+    };
+    if (patientIdx >= 0) {
+      const target = patientItems[patientIdx]?.notes?.findIndex(
         it => it.id === note.id,
       );
-      if (target > 0) {
-        dispatch(updateNote(note));
+      if (target !== undefined && target >= 0) {
+        dispatch(updateNote({note: newNote, patientId}));
       } else {
-        dispatch(addNote(note));
+        dispatch(addNote({note: newNote, patientId}));
       }
     }
   };
@@ -93,7 +104,7 @@ export default function NoteForm({route}: NoteFormProp) {
               </Button>
             </View>
           }
-          data={note.prescriptions}
+          data={prescriptionItems}
           keyExtractor={(_, idx) => idx.toString()}
           renderItem={({item, index}) => (
             <PrescriptionInput

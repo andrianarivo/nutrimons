@@ -1,13 +1,12 @@
 import {StyleSheet} from 'react-native';
 import React, {useEffect} from 'react';
-import db from '../db';
 import {RootStackParamList} from '../../App';
 import {StackScreenProps} from '@react-navigation/stack';
 import NoteCard from '../components/NoteCard';
 import {FlatList} from 'react-native-gesture-handler';
 import PatientDetailsHeader from '../components/PatientDetailsHeader';
 import {useSelector} from 'react-redux';
-import {selectNotes} from '../redux/store';
+import {selectNotes, selectPatients} from '../redux/store';
 import {getNotes} from '../redux/notes/notesSlice';
 import {useAppDispatch} from '../hooks';
 import {Text} from '@rneui/themed';
@@ -28,15 +27,13 @@ export default function PatientDetails({
 }: PatientDetailsProp) {
   const patientId = route.params.id;
   const {noteItems, loading, error, errMsg} = useSelector(selectNotes);
+  const {patientItems} = useSelector(selectPatients);
   const dispatch = useAppDispatch();
-  const patient = db.patients.find(p => p.id === patientId);
+  const patient = patientItems.find(p => p.id === patientId);
 
   useEffect(() => {
-    if (noteItems.length > 0) {
-      return;
-    }
     dispatch(getNotes(patientId));
-  }, [dispatch, patientId, noteItems.length]);
+  }, [dispatch, patientId]);
 
   if (loading) {
     return (
