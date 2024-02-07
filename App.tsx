@@ -29,11 +29,31 @@ function App(): React.JSX.Element {
           screenOptions={{
             cardStyle: {backgroundColor: colors.white},
           }}>
-          <Stack.Screen name="PatientList" component={PatientList} />
-          <Stack.Screen name="PatientDetails" component={PatientDetails} />
-          <Stack.Screen name="NoteForm" component={NoteForm} />
-          <Stack.Screen name="PatientForm" component={PatientForm} />
-          <Stack.Screen name="PrescriptionForm" component={PrescriptionForm} />
+          <Stack.Screen
+            name="PatientList"
+            options={{title: 'Patients'}}
+            component={PatientList}
+          />
+          <Stack.Screen
+            name="PatientDetails"
+            options={{title: 'Notes'}}
+            component={PatientDetails}
+          />
+          <Stack.Screen
+            name="NoteForm"
+            options={{title: 'Add/Edit Note'}}
+            component={NoteForm}
+          />
+          <Stack.Screen
+            name="PatientForm"
+            options={{title: 'Add Patient'}}
+            component={PatientForm}
+          />
+          <Stack.Screen
+            name="PrescriptionForm"
+            options={{title: 'Add a Prescription'}}
+            component={PrescriptionForm}
+          />
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>

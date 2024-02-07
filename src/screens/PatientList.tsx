@@ -70,7 +70,7 @@ export default function PatientList({navigation}: PatientListProps) {
           name: 'add',
           color: 'white',
         }}
-        color={colors.hotPink}
+        color={colors.navyBlue}
         onPress={() => {
           navigation.navigate('PatientForm', {patient: null});
         }}

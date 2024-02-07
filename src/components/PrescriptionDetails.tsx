@@ -40,7 +40,7 @@ const style = StyleSheet.create({
     display: 'flex',
     flexDirection: 'row',
     marginLeft: 10,
-    backgroundColor: colors.hotPink,
+    backgroundColor: colors.lightGrey,
     borderRadius: 10,
     marginVertical: 10,
     paddingHorizontal: 10,
@@ -48,7 +48,7 @@ const style = StyleSheet.create({
   avatar: {
     marginTop: 'auto',
     marginBottom: 'auto',
-    backgroundColor: colors.grey,
+    backgroundColor: colors.sageGreen,
   },
   textParent: {
     flex: 1,

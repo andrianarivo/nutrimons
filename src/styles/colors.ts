@@ -10,4 +10,7 @@ export const colors = {
   black: '#1d1d1f',
   borderGrey: '#d4d3d9',
   textGrey: '#49494b',
+  dustyBlue: '#a0b1c3',
+  navyBlue: '#3a4968',
+  sageGreen: '#96bdab',
 };

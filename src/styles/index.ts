@@ -13,7 +13,7 @@ export default StyleSheet.create({
   },
   card: {
     borderStyle: 'solid',
-    borderColor: colors.darkGrey,
+    borderColor: colors.grey,
     borderRadius: 10,
     borderWidth: 1.5,
   },
@@ -42,10 +42,10 @@ export default StyleSheet.create({
   },
   button: {
     borderRadius: 15,
-    backgroundColor: colors.yellow,
+    backgroundColor: colors.navyBlue,
   },
   buttonTitle: {
-    color: colors.black,
+    color: colors.white,
     fontWeight: 'bold',
   },
   halfw: {

@@ -42,10 +42,10 @@ export default function PatientCard({patient, onPress}: PatientCardProps) {
 
 const style = StyleSheet.create({
   avatar: {
-    backgroundColor: colors.grey,
+    backgroundColor: colors.navyBlue,
     marginLeft: 'auto',
     marginRight: 'auto',
     marginBottom: 10,
   },
-  card: {backgroundColor: colors.yellow},
+  card: {backgroundColor: colors.dustyBlue},
 });

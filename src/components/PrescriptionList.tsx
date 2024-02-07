@@ -33,7 +33,7 @@ export default function PrescriptionList({
             type="clear"
             onPress={onAddPrescription}>
             Add a new prescription
-            <Icon name="touch-app" color={colors.hotPink} />
+            <Icon name="touch-app" color={colors.sageGreen} />
           </Button>
         </View>
       }
@@ -51,7 +51,7 @@ const style = StyleSheet.create({
   },
   buttonTitle: {
     fontSize: 16,
-    color: colors.hotPink,
+    color: colors.sageGreen,
     fontWeight: 'bold',
   },
 });
