@@ -43,14 +43,7 @@ const addPatient = createAsyncThunk<Patient | undefined, Patient>(
 const patientSlice = createSlice({
   name: 'patients',
   initialState,
-  reducers: {
-    deletePatient: (state, {payload}) => ({
-      ...state,
-      patientItems: state.patientItems.filter(
-        patient => patient.id !== payload.id,
-      ),
-    }),
-  },
+  reducers: {},
   extraReducers: builder => {
     // getPatients
     builder.addCase(getPatients.pending, state => {
@@ -94,7 +87,5 @@ const patientSlice = createSlice({
 });
 
 export {getPatients, addPatient, updatePatient};
-
-export const {deletePatient} = patientSlice.actions;
 
 export default patientSlice.reducer;

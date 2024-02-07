@@ -1,5 +1,5 @@
 import {MMKV} from 'react-native-mmkv';
-import {Note, Patient} from '../../types';
+import {Note, Patient, Prescription} from '../../types';
 
 const patients: Patient[] = [
   {
@@ -77,34 +77,40 @@ const notes: Note[] = [
   },
 ];
 
-const prescriptions = [
+const prescriptions: Prescription[] = [
   {
     id: 1,
+    noteId: 1,
     name: 'Paracetamol',
     dosage: '1 pill every 8 hours',
   },
   {
     id: 2,
+    noteId: 1,
     name: 'Ibuprofen',
     dosage: '1 pill every 12 hours',
   },
   {
     id: 3,
+    noteId: 2,
     name: 'Paracetamol',
     dosage: '1 pill every 8 hours',
   },
   {
     id: 4,
+    noteId: 2,
     name: 'Ibuprofen',
     dosage: '1 pill every 12 hours',
   },
   {
     id: 5,
+    noteId: 3,
     name: 'Paracetamol',
     dosage: '1 pill every 8 hours',
   },
   {
     id: 6,
+    noteId: 3,
     name: 'Ibuprofen',
     dosage: '1 pill every 12 hours',
   },

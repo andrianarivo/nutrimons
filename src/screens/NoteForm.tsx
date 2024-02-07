@@ -2,8 +2,7 @@ import {StyleSheet, View} from 'react-native';
 import React from 'react';
 import {RootStackParamList} from '../../App';
 import {StackScreenProps} from '@react-navigation/stack';
-import {FlatList} from 'react-native-gesture-handler';
-import {Button, Icon, Text} from '@rneui/themed';
+import {Button, Text} from '@rneui/themed';
 import base, {colors} from '../styles';
 import DateInput from '../components/DateInput';
 import {Field, Formik} from 'formik';
@@ -13,6 +12,9 @@ import * as yup from 'yup';
 import {useAppDispatch} from '../hooks';
 import {Note} from '../../types';
 import {addNote} from '../redux/notes/notesSlice';
+import PrescriptionList from '../components/PrescriptionList';
+import {useSelector} from 'react-redux';
+import {selectNotes} from '../redux/store';
 
 type NoteFormNavigationProps = StackScreenProps<RootStackParamList, 'NoteForm'>;
 
@@ -21,8 +23,9 @@ interface NoteFormProp {
   route: NoteFormNavigationProps['route'];
 }
 
-export default function NoteForm({route}: NoteFormProp) {
+export default function NoteForm({route, navigation}: NoteFormProp) {
   const dispatch = useAppDispatch();
+  const {noteItems} = useSelector(selectNotes);
   const originalNote = route.params.note;
 
   const noteValidationSchema = yup.object().shape({
@@ -94,22 +97,17 @@ export default function NoteForm({route}: NoteFormProp) {
               errorMessage={errors.description}
             />
             <Text h4>Prescriptions:</Text>
-            <FlatList
-              ListFooterComponent={
-                <View style={style.addPrescription}>
-                  <Button titleStyle={style.buttonTitle} type="clear">
-                    Add a new prescription
-                    <Icon name="touch-app" color={colors.hotPink} />
-                  </Button>
-                </View>
-              }
-              data={[1, 2]}
-              keyExtractor={(_, idx) => idx.toString()}
-              renderItem={({item}) => <Text>{item}</Text>}
-              removeClippedSubviews={false}
+            <PrescriptionList
+              noteId={originalNote?.id}
+              onAddPrescription={() => {
+                navigation.navigate('PrescriptionForm', {
+                  prescription: null,
+                  noteId: originalNote?.id || noteItems.length + 1,
+                });
+              }}
             />
             <Button
-              buttonStyle={base.button}
+              buttonStyle={{...base.button, ...style.button}}
               titleStyle={base.buttonTitle}
               size="lg"
               disabled={!isValid}
@@ -150,5 +148,8 @@ const style = StyleSheet.create({
   },
   duration: {
     flex: 1,
+  },
+  button: {
+    marginBottom: 20,
   },
 });

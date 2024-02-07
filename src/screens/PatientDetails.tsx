@@ -25,7 +25,7 @@ export default function PatientDetails({
   route,
   navigation,
 }: PatientDetailsProp) {
-  const patientId = route.params.id;
+  const patientId = route.params.patientId;
   const {noteItems, loading, error, errMsg} = useSelector(selectNotes);
   const {patientItems} = useSelector(selectPatients);
   const dispatch = useAppDispatch();
@@ -52,16 +52,9 @@ export default function PatientDetails({
   }
 
   const onTakeNote = () => {
-    const newNote = {
-      id: noteItems.length,
-      title: '',
-      date: new Date().toISOString(),
-      duration: 0,
-      description: '',
-      patientId: patientId,
-    };
     navigation.navigate('NoteForm', {
-      note: newNote,
+      note: null,
+      patientId,
     });
   };
 
@@ -81,6 +74,7 @@ export default function PatientDetails({
           onPress={() => {
             navigation.navigate('NoteForm', {
               note: item,
+              patientId,
             });
           }}
         />

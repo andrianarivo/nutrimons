@@ -34,6 +34,7 @@ const updateNote = createAsyncThunk<
 const addNote = createAsyncThunk<Note | undefined, Note>(
   'nutrimons/addNote',
   async note => {
+    note.id = db.notes.length + 1;
     return Promise.resolve(note);
   },
 );
@@ -41,12 +42,7 @@ const addNote = createAsyncThunk<Note | undefined, Note>(
 const notesSlice = createSlice({
   name: 'notes',
   initialState,
-  reducers: {
-    deleteNote: (state, {payload}) => ({
-      ...state,
-      noteItems: state.noteItems.filter(note => note.id !== payload.id),
-    }),
-  },
+  reducers: {},
   extraReducers: builder => {
     // getNotes
     builder.addCase(getNotes.pending, state => {
@@ -107,7 +103,5 @@ const notesSlice = createSlice({
 });
 
 export {getNotes, updateNote, addNote};
-
-export const {deleteNote} = notesSlice.actions;
 
 export default notesSlice.reducer;

@@ -57,7 +57,7 @@ export default function PatientList({navigation}: PatientListProps) {
             <PatientCard
               patient={item}
               onPress={() => {
-                navigation.navigate('PatientDetails', {id: item.id});
+                navigation.navigate('PatientDetails', {patientId: item.id});
               }}
             />
           )}
