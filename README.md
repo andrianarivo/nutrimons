@@ -1,79 +1,192 @@
-This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
+<a name="readme-top"></a>
 
-# Getting Started
+<div align="center">
+  <!-- You are encouraged to replace this logo with your own! Otherwise you can also remove it. -->
+  <img src="./nutrimon.png" alt="logo" width="140"  height="auto" />
+  <br/>
 
->**Note**: Make sure you have completed the [React Native - Environment Setup](https://reactnative.dev/docs/environment-setup) instructions till "Creating a new application" step, before proceeding.
+  <h3><b>Nutrimons</b></h3>
 
-## Step 1: Start the Metro Server
+</div>
 
-First, you will need to start **Metro**, the JavaScript _bundler_ that ships _with_ React Native.
+<!-- TABLE OF CONTENTS -->
 
-To start Metro, run the following command from the _root_ of your React Native project:
+# 📗 Table of Contents
 
-```bash
-# using npm
-npm start
+- [📖 About the Project](#about-project)
+  - [🛠 Built With](#built-with)
+    - [Tech Stack](#tech-stack)
+    - [Key Features](#key-features)
+  - [🚀 Debug App](#live-demo)
+- [💻 Getting Started](#getting-started)
+  - [Setup](#setup)
+  - [Prerequisites](#prerequisites)
+  - [Install](#install)
+  - [Usage](#usage)
+  - [Deployment](#deployment)
+- [👥 Authors](#authors)
+- [🔭 Future Features](#future-features)
+- [🤝 Contributing](#contributing)
+- [⭐️ Show your support](#support)
+- [🙏 Acknowledgements](#acknowledgements)
+- [📝 License](#license)
 
-# OR using Yarn
-yarn start
+<!-- PROJECT DESCRIPTION -->
+
+# 📖 Nutrimons <a name="about-project"></a>
+
+**Nutrimons** a platform for nutritionists to follow their patients.
+
+## 🛠 Built With <a name="built-with"></a>
+
+### Tech Stack <a name="tech-stack"></a>
+
+<details>
+  <summary>Client</summary>
+  <ul>
+    <li><a href="https://reactjs.org/">React.js</a></li>
+  </ul>
+</details>
+
+<details>
+  <summary>Mobile Framework</summary>
+  <ul>
+    <li><a href="https://reactnative.dev/">React Native</a></li>
+  </ul>
+</details>
+
+<details>
+<summary>Storage</summary>
+  <ul>
+    <li><a href="https://github.com/mrousavy/react-native-mmkv">MMKV</a></li>
+  </ul>
+</details>
+
+<!-- Features -->
+
+### Key Features <a name="key-features"></a>
+
+- **users can create patients**
+- **users can take notes about their consultations**
+- **users can retrieve patient and notes about their consultations**
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+<!-- LIVE DEMO -->
+
+## 🚀 Debug App <a name="live-demo"></a>
+
+- [Download and install](https://github.com/andrianarivo/nutrimons/releases/tag/dev-0.0.1)
+
+<div>
+  <img src="./423036742_782820170531970_7449334536217549226_n.jpg" alt="logo" width="140"  height="auto" />
+  <img src="./426452837_760098008954068_4704730872144810070_n.jpg" alt="logo" width="140"  height="auto" />
+  <img src="./426469227_1097456824610683_4144626904760816419_n.jpg" alt="logo" width="140"  height="auto" />
+  <img src="./426569007_1772082466548853_561026302961221877_n.jpg" alt="logo" width="140"  height="auto" />
+</div>
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+<!-- GETTING STARTED -->
+
+## 💻 Getting Started <a name="getting-started"></a>
+
+To get a local copy up and running, follow these steps.
+
+### Prerequisites
+
+In order to run this project you need:
+
+- `VSCode`
+- `Node.js`
+- `Android Studio` and | or `XCode`
+- `Simulator` and | or `Real Device`
+
+### Setup
+
+Clone this repository to your desired folder:
+
+```sh
+  cd my-folder
+  git clone https://github.com/andrianarivo/nutrimons.git
 ```
 
-## Step 2: Start your Application
+### Install
 
-Let Metro Bundler run in its _own_ terminal. Open a _new_ terminal from the _root_ of your React Native project. Run the following command to start your _Android_ or _iOS_ app:
+Install this project with:
 
-### For Android
-
-```bash
-# using npm
-npm run android
-
-# OR using Yarn
-yarn android
+```sh
+  cd my-project
+  npm i
 ```
 
-### For iOS
+### Usage
 
-```bash
-# using npm
-npm run ios
+To run the project, execute the following command:
 
-# OR using Yarn
-yarn ios
+```sh
+  npm start
 ```
 
-If everything is set up _correctly_, you should see your new app running in your _Android Emulator_ or _iOS Simulator_ shortly provided you have set up your emulator/simulator correctly.
+### Deployment
 
-This is one way to run your app — you can also run it directly from within Android Studio and Xcode respectively.
+You can deploy this project using your own deployment solution
 
-## Step 3: Modifying your App
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-Now that you have successfully run the app, let's modify it.
+<!-- AUTHORS -->
 
-1. Open `App.tsx` in your text editor of choice and edit some lines.
-2. For **Android**: Press the <kbd>R</kbd> key twice or select **"Reload"** from the **Developer Menu** (<kbd>Ctrl</kbd> + <kbd>M</kbd> (on Window and Linux) or <kbd>Cmd ⌘</kbd> + <kbd>M</kbd> (on macOS)) to see your changes!
+## 👥 Authors <a name="authors"></a>
 
-   For **iOS**: Hit <kbd>Cmd ⌘</kbd> + <kbd>R</kbd> in your iOS Simulator to reload the app and see your changes!
+👤 **David**
 
-## Congratulations! :tada:
+- GitHub: [@andrianarivo](https://github.com/andrianarivo)
+- Twitter: [@dandrianarivo](https://twitter.com/dandrianarivo)
+- LinkedIn: [LinkedIn](https://linkedin.com/in/andrianarivo)
 
-You've successfully run and modified your React Native App. :partying_face:
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-### Now what?
+<!-- FUTURE FEATURES -->
 
-- If you want to add this new React Native code to an existing application, check out the [Integration guide](https://reactnative.dev/docs/integration-with-existing-apps).
-- If you're curious to learn more about React Native, check out the [Introduction to React Native](https://reactnative.dev/docs/getting-started).
+## 🔭 Future Features <a name="future-features"></a>
 
-# Troubleshooting
+- [ ] **Online Synchronisation**
+- [ ] **Ability to update and remove Patients**
+- [ ] **Import or take pictures of Patients**
 
-If you can't get this to work, see the [Troubleshooting](https://reactnative.dev/docs/troubleshooting) page.
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-# Learn More
+<!-- CONTRIBUTING -->
 
-To learn more about React Native, take a look at the following resources:
+## 🤝 Contributing <a name="contributing"></a>
 
-- [React Native Website](https://reactnative.dev) - learn more about React Native.
-- [Getting Started](https://reactnative.dev/docs/environment-setup) - an **overview** of React Native and how setup your environment.
-- [Learn the Basics](https://reactnative.dev/docs/getting-started) - a **guided tour** of the React Native **basics**.
-- [Blog](https://reactnative.dev/blog) - read the latest official React Native **Blog** posts.
-- [`@facebook/react-native`](https://github.com/facebook/react-native) - the Open Source; GitHub **repository** for React Native.
+Contributions, issues, and feature requests are welcome!
+
+Feel free to check the [issues page](https://github.com/andrianarivo/nutrimons/issues).
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+<!-- SUPPORT -->
+
+## ⭐️ Show your support <a name="support"></a>
+
+If you like this project consider adding a ⭐
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+<!-- ACKNOWLEDGEMENTS -->
+
+## 🙏 Acknowledgments <a name="acknowledgements"></a>
+
+I would like to thank Yana Hrytsai from Behance for the design inspiration. Nothing has been changed from the original design. [link](https://www.behance.net/gallery/178837985/Learning-App-UXUI-Case-Study?fbclid=IwAR3NFWbu8En9fu2QPTeJ0q288bcpRAQXx9EKOJkx87J7qeT9zh5OFAc7wdQ&)
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+<!-- LICENSE -->
+
+## 📝 License <a name="license"></a>
+
+This project is [MIT](./LICENSE) licensed.
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
