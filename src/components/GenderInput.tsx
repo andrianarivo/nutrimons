@@ -6,14 +6,19 @@ import base, {colors} from '../styles';
 
 interface GenderInputProps {
   containerStyle: ViewStyle;
+  onChangeGender?: (value: string) => void;
 }
 
-export default function GenderInput({containerStyle}: GenderInputProps) {
+export default function GenderInput({
+  containerStyle,
+  onChangeGender,
+}: GenderInputProps) {
   const data = [
     {label: 'male', value: 'm'},
     {label: 'female', value: 'f'},
   ];
   const [dropdownStyle, setDropdownStyle] = useState(style.dropdown);
+  const [index, setIndex] = useState(0);
 
   const onFocus = () => {
     setDropdownStyle(style.dropdownFocus);
@@ -21,6 +26,12 @@ export default function GenderInput({containerStyle}: GenderInputProps) {
 
   const onBlur = () => {
     setDropdownStyle(style.dropdown);
+  };
+
+  const onChange = ({value}: {value: string}) => {
+    const newIndex = data.findIndex(item => item.value === value);
+    setIndex(newIndex);
+    onChangeGender?.(value);
   };
 
   return (
@@ -32,16 +43,14 @@ export default function GenderInput({containerStyle}: GenderInputProps) {
           return <Text>{label}</Text>;
         }}
         style={dropdownStyle}
-        value={data[0]}
+        value={data[index]}
         containerStyle={style.dropdownContainer}
         itemContainerStyle={style.dropdownItemContainer}
         selectedTextStyle={style.dropdownText}
         placeholderStyle={style.dropdownText}
         labelField="label"
         valueField="value"
-        onChange={({value}) => {
-          console.log(value);
-        }}
+        onChange={onChange}
         onFocus={onFocus}
         onBlur={onBlur}
       />

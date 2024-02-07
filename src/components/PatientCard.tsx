@@ -4,6 +4,7 @@ import {Patient} from '../../types';
 import {Avatar, Card, Icon, Text} from '@rneui/themed';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import base, {colors} from '../styles';
+import {ellipsis} from '../utils';
 
 export interface PatientCardProps {
   patient: Patient;
@@ -25,7 +26,7 @@ export default function PatientCard({patient, onPress}: PatientCardProps) {
             style={
               base.cardTitle
             }>{`${patient.firstname} ${patient.name}`}</Text>
-          <Text style={base.cardDesc}>{patient.summary}</Text>
+          <Text style={base.cardDesc}>{ellipsis(patient.summary, 35)}</Text>
           <View style={base.cardBottom}>
             <View style={base.cardInfo}>
               <Icon name="euro" size={15} color={colors.textGrey} />

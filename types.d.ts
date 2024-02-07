@@ -7,13 +7,14 @@ export interface Patient {
   weight: number;
   summary: string;
   hourRate: number;
-  notes?: Note[];
+  notes?: number[];
   sex: string;
   [key: string]: any;
 }
 
 export interface Note {
   id: number;
+  patientId: number;
   date: string;
   title: string;
   description: string;

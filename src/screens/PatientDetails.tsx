@@ -58,10 +58,10 @@ export default function PatientDetails({
       date: new Date().toISOString(),
       duration: 0,
       description: '',
+      patientId: patientId,
     };
     navigation.navigate('NoteForm', {
       note: newNote,
-      patientId,
     });
   };
 
@@ -81,7 +81,6 @@ export default function PatientDetails({
           onPress={() => {
             navigation.navigate('NoteForm', {
               note: item,
-              patientId,
             });
           }}
         />

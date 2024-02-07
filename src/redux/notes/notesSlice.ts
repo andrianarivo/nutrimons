@@ -1,7 +1,6 @@
 import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
 import {Note} from '../../../types';
 import db from '../../db';
-import {deepCopy} from '../../utils';
 
 export interface NoteSliceState {
   noteItems: Note[];
@@ -20,9 +19,7 @@ const initialState: NoteSliceState = {
 const getNotes = createAsyncThunk<Note[] | undefined, number>(
   'nutrimons/getNotes',
   async patientId => {
-    return Promise.resolve(
-      db.patients.find(patient => patient.id === patientId)?.notes,
-    );
+    return Promise.resolve(db.notes.filter(n => n.patientId === patientId));
   },
 );
 
@@ -30,27 +27,16 @@ const updateNote = createAsyncThunk<
   Note[] | undefined,
   {note: Note; patientId: number}
 >('nutrimons/updateNote', async ({note, patientId}) => {
-  const patient = db.patients.find(p => p.id === patientId);
-  const idx =
-    db.patients
-      .find(p => p.id === patientId)
-      ?.notes?.findIndex(n => n.id === patientId) || 0;
-  if (patient) {
-    const notes = patient.notes;
-    const notesCopy = deepCopy(notes);
-    notesCopy?.splice(idx, 1, note);
-    patient.notes = notesCopy;
-    console.log(patient.notes);
-  }
-  return Promise.resolve(patient?.notes);
+  console.log(note);
+  return Promise.resolve(db.notes.filter(n => n.patientId === patientId));
 });
 
 const addNote = createAsyncThunk<
-  Note | undefined,
+  Note[] | undefined,
   {note: Note; patientId: number}
 >('nutrimons/addNote', async ({note, patientId}) => {
-  db.patients.find(p => p.id === patientId)?.notes?.push(note);
-  return Promise.resolve(note);
+  console.log(note);
+  return Promise.resolve(db.notes.filter(n => n.patientId === patientId));
 });
 
 const notesSlice = createSlice({
@@ -109,7 +95,7 @@ const notesSlice = createSlice({
       state.loading = false;
       state.error = false;
       state.errMsg = '';
-      state.noteItems = [...state.noteItems, payload as Note];
+      state.noteItems = Array.from(payload || []);
     });
     builder.addCase(addNote.rejected, (state, {error}) => {
       state.loading = false;

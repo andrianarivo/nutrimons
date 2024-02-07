@@ -32,10 +32,10 @@ const updatePatient = createAsyncThunk<Patient | undefined, {patient: Patient}>(
   },
 );
 
-const addPatient = createAsyncThunk<Patient | undefined, {patient: Patient}>(
+const addPatient = createAsyncThunk<Patient | undefined, Patient>(
   'nutrimons/addPatient',
-  async ({patient}) => {
-    db.patients.push(patient);
+  async patient => {
+    patient.id = db.patients.length + 1;
     return Promise.resolve(patient);
   },
 );
@@ -52,6 +52,7 @@ const patientSlice = createSlice({
     }),
   },
   extraReducers: builder => {
+    // getPatients
     builder.addCase(getPatients.pending, state => {
       state.loading = true;
       state.error = false;
@@ -66,6 +67,25 @@ const patientSlice = createSlice({
       }
     });
     builder.addCase(getPatients.rejected, (state, {error}) => {
+      state.loading = false;
+      state.error = true;
+      state.errMsg = error.message;
+    });
+    // addPatient
+    builder.addCase(addPatient.pending, state => {
+      state.loading = true;
+      state.error = false;
+      state.errMsg = '';
+    });
+    builder.addCase(addPatient.fulfilled, (state, {payload}) => {
+      state.loading = false;
+      state.error = false;
+      state.errMsg = '';
+      if (payload) {
+        state.patientItems = [...state.patientItems, payload];
+      }
+    });
+    builder.addCase(addPatient.rejected, (state, {error}) => {
       state.loading = false;
       state.error = true;
       state.errMsg = error.message;

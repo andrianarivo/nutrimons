@@ -13,7 +13,7 @@ import {colors} from './src/styles';
 export type RootStackParamList = {
   PatientList: undefined;
   PatientDetails: {id: number};
-  NoteForm: {note: Note; patientId: number};
+  NoteForm: {note: Note | null};
   PatientForm: {patient: Patient | null};
 };
 

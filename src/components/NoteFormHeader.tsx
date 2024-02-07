@@ -7,7 +7,7 @@ import {DateTime} from 'luxon';
 import {Text} from '@rneui/themed';
 
 interface NoteFormHeaderProps {
-  note: Note;
+  note: Note | null;
   handleChangeDate: (date: Date) => void;
   handleChangeText: (text: string, name?: string) => void;
 }
@@ -17,7 +17,7 @@ export default function NoteFormHeader({
   handleChangeDate,
   handleChangeText,
 }: NoteFormHeaderProps) {
-  const dateString = DateTime.fromISO(note.date)
+  const dateString = DateTime.fromISO(note?.date || new Date().toISOString())
     .setLocale('en-US')
     .toLocaleString(DateTime.DATE_MED);
 
@@ -25,8 +25,8 @@ export default function NoteFormHeader({
     <>
       <TextInput
         containerStyle={style.title}
-        value={note.title}
-        placeholder={note.title || 'New Title'}
+        value={note?.title || ''}
+        placeholder={note?.title || 'New Title'}
         onChangeText={handleChangeText}
         name="title"
         label={'Title'}
@@ -40,9 +40,9 @@ export default function NoteFormHeader({
         />
         <TextInput
           containerStyle={style.duration}
-          value={note.duration.toString()}
+          value={note?.duration.toString() || ''}
           keyboardType="numeric"
-          placeholder={note.duration.toString()}
+          placeholder={note?.duration.toString() || '0'}
           onChangeText={handleChangeText}
           name="duration"
           label="Est. Duration"
@@ -51,8 +51,8 @@ export default function NoteFormHeader({
       <TextInput
         multiline={true}
         label="Description"
-        placeholder={note.description || 'New Description'}
-        value={note.description}
+        placeholder={note?.description || 'New Description'}
+        value={note?.description || ''}
         onChangeText={handleChangeText}
         name="description"
         numberOfLines={4}

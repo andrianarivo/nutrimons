@@ -16,6 +16,8 @@ interface InputProps {
   name?: string;
   leftIcon?: IconNode;
   rightIcon?: IconNode;
+  renderErrorMessage?: boolean;
+  errorMessage?: string;
   onChangeText?: (text: string, name?: string) => void;
 }
 
@@ -31,6 +33,8 @@ export default function TextInput({
   name,
   leftIcon,
   rightIcon,
+  renderErrorMessage,
+  errorMessage,
   onChangeText,
 }: InputProps) {
   const [inputContainerStyle, setContainerStyle] = useState(
@@ -45,6 +49,7 @@ export default function TextInput({
 
   return (
     <Input
+      renderErrorMessage={renderErrorMessage}
       containerStyle={containerStyle}
       inputContainerStyle={inputContainerStyle}
       inputStyle={style.input}
@@ -63,6 +68,7 @@ export default function TextInput({
       numberOfLines={numberOfLines}
       leftIcon={leftIcon}
       rightIcon={rightIcon}
+      errorMessage={errorMessage}
     />
   );
 }

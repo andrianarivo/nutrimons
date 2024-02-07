@@ -1,5 +1,5 @@
 import {StyleSheet, View} from 'react-native';
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {RootStackParamList} from '../../App';
 import {StackScreenProps} from '@react-navigation/stack';
 import PrescriptionInput from '../components/PrescriptionInput';
@@ -10,10 +10,9 @@ import {Button, Icon} from '@rneui/themed';
 import {addNote, updateNote} from '../redux/notes/notesSlice';
 import {useAppDispatch} from '../hooks';
 import {useSelector} from 'react-redux';
-import {selectPatients, selectPrescriptions} from '../redux/store';
-import {getPrescriptions} from '../redux/prescriptions/prescriptionsSlice';
-import {deepCopy} from '../utils';
+import {selectPatients} from '../redux/store';
 import {colors} from '../styles';
+import {Note} from '../../types';
 
 type NoteFormNavigationProps = StackScreenProps<RootStackParamList, 'NoteForm'>;
 
@@ -23,24 +22,20 @@ interface NoteFormProp {
 }
 
 export default function NoteForm({route}: NoteFormProp) {
-  const originalNote = deepCopy(route.params.note);
-  const patientId = route.params.patientId;
-  const [note, setNote] = useState(originalNote);
+  const originalNote = route.params.note;
+  const [note, setNote] = useState<Note | null>(originalNote);
   const {patientItems} = useSelector(selectPatients);
-  const {prescriptionItems} = useSelector(selectPrescriptions);
   const dispatch = useAppDispatch();
 
-  useEffect(() => {
-    dispatch(getPrescriptions({patientId, noteId: originalNote.id}));
-  }, [dispatch, patientId, originalNote.id]);
-
   const handleChangeDate = (date: Date) => {
-    note.date = date.toISOString();
+    if (note) {
+      note.date = date.toISOString();
+    }
   };
 
   const handleChangeText = (e: string, name?: string) => {
     setNote(prev => {
-      const newNote = {...prev};
+      const newNote = Object.create(prev);
       if (!name) {
         return newNote;
       }
@@ -51,7 +46,7 @@ export default function NoteForm({route}: NoteFormProp) {
 
   const handleChangePrescription = (e: string, name: string, id: number) => {
     setNote(prev => {
-      const newNote = {...prev};
+      const newNote = Object.create(prev);
       if (newNote.prescriptions) {
         newNote.prescriptions[id][name] = e;
       }
@@ -60,15 +55,15 @@ export default function NoteForm({route}: NoteFormProp) {
   };
 
   const addNewPrescription = () => {
-    const n = note.prescriptions?.length || 0;
+    const n = note?.prescriptions?.length || 0;
     const newPrescription = {
       id: n + 1,
       name: '',
       dosage: '',
     };
     setNote(prev => {
-      const newNote = {...prev};
-      if (note.prescriptions) {
+      const newNote = Object.create(prev);
+      if (note?.prescriptions) {
         newNote.prescriptions = [...note.prescriptions, newPrescription];
       } else {
         newNote.prescriptions = [newPrescription];
@@ -78,19 +73,16 @@ export default function NoteForm({route}: NoteFormProp) {
   };
 
   const onSubmit = () => {
-    const patientIdx = patientItems.findIndex(it => it.id === patientId);
-    const newNote = {
-      ...note,
-      prescriptions: [...prescriptionItems],
-    };
+    const patientIdx = patientItems.findIndex(it => it.id === note?.patientId);
+    const newNote = Object.create(note);
     if (patientIdx >= 0) {
       const target = patientItems[patientIdx]?.notes?.findIndex(
-        it => it.id === note.id,
+        it => it === note?.id,
       );
       if (target !== undefined && target >= 0) {
-        dispatch(updateNote({note: newNote, patientId}));
+        dispatch(updateNote({note: newNote, patientId: note?.patientId || -1}));
       } else {
-        dispatch(addNote({note: newNote, patientId}));
+        dispatch(addNote({note: newNote, patientId: note?.patientId || -1}));
       }
     }
   };
@@ -117,7 +109,7 @@ export default function NoteForm({route}: NoteFormProp) {
               </Button>
             </View>
           }
-          data={note.prescriptions}
+          data={note?.prescriptions}
           keyExtractor={(_, idx) => idx.toString()}
           renderItem={({item, index}) => (
             <PrescriptionInput
