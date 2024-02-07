@@ -31,13 +31,12 @@ const updateNote = createAsyncThunk<
   return Promise.resolve(db.notes.filter(n => n.patientId === patientId));
 });
 
-const addNote = createAsyncThunk<
-  Note[] | undefined,
-  {note: Note; patientId: number}
->('nutrimons/addNote', async ({note, patientId}) => {
-  console.log(note);
-  return Promise.resolve(db.notes.filter(n => n.patientId === patientId));
-});
+const addNote = createAsyncThunk<Note | undefined, Note>(
+  'nutrimons/addNote',
+  async note => {
+    return Promise.resolve(note);
+  },
+);
 
 const notesSlice = createSlice({
   name: 'notes',
@@ -95,7 +94,9 @@ const notesSlice = createSlice({
       state.loading = false;
       state.error = false;
       state.errMsg = '';
-      state.noteItems = Array.from(payload || []);
+      if (payload) {
+        state.noteItems = [...state.noteItems, payload];
+      }
     });
     builder.addCase(addNote.rejected, (state, {error}) => {
       state.loading = false;

@@ -37,7 +37,10 @@ export default function DateInput({
       <DateTimePickerModal
         isVisible={isVisible}
         mode="date"
-        onConfirm={onConfirm}
+        onConfirm={d => {
+          onConfirm(d);
+          hideDatePicker();
+        }}
         onCancel={hideDatePicker}
       />
     </View>

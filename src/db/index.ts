@@ -47,18 +47,7 @@ const notes: Note[] = [
     description: 'First visit to the doctor',
     duration: 7,
     patientId: 1,
-    prescriptions: [
-      {
-        id: 1,
-        name: 'Paracetamol',
-        dosage: '1 pill every 8 hours',
-      },
-      {
-        id: 2,
-        name: 'Ibuprofen',
-        dosage: '1 pill every 12 hours',
-      },
-    ],
+    prescriptions: [1, 2],
   },
   {
     id: 2,
@@ -67,18 +56,7 @@ const notes: Note[] = [
     description: 'Second visit to the doctor',
     duration: 7,
     patientId: 1,
-    prescriptions: [
-      {
-        id: 1,
-        name: 'Paracetamol',
-        dosage: '1 pill every 8 hours',
-      },
-      {
-        id: 2,
-        name: 'Ibuprofen',
-        dosage: '1 pill every 12 hours',
-      },
-    ],
+    prescriptions: [3, 4],
   },
   {
     id: 3,
@@ -87,18 +65,7 @@ const notes: Note[] = [
     description: 'First visit to the doctor',
     duration: 10,
     patientId: 2,
-    prescriptions: [
-      {
-        id: 5,
-        name: 'Paracetamol',
-        dosage: '1 pill every 8 hours',
-      },
-      {
-        id: 6,
-        name: 'Ibuprofen',
-        dosage: '1 pill every 12 hours',
-      },
-    ],
+    prescriptions: [5, 6],
   },
   {
     id: 4,
@@ -110,8 +77,41 @@ const notes: Note[] = [
   },
 ];
 
+const prescriptions = [
+  {
+    id: 1,
+    name: 'Paracetamol',
+    dosage: '1 pill every 8 hours',
+  },
+  {
+    id: 2,
+    name: 'Ibuprofen',
+    dosage: '1 pill every 12 hours',
+  },
+  {
+    id: 3,
+    name: 'Paracetamol',
+    dosage: '1 pill every 8 hours',
+  },
+  {
+    id: 4,
+    name: 'Ibuprofen',
+    dosage: '1 pill every 12 hours',
+  },
+  {
+    id: 5,
+    name: 'Paracetamol',
+    dosage: '1 pill every 8 hours',
+  },
+  {
+    id: 6,
+    name: 'Ibuprofen',
+    dosage: '1 pill every 12 hours',
+  },
+];
+
 const storage = new MMKV();
 
 export {storage};
 
-export default {patients, notes};
+export default {patients, notes, prescriptions};

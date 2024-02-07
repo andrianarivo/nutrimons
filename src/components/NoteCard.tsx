@@ -16,7 +16,7 @@ export default function NoteCard({note, onPress}: NoteCardProps) {
       <Card containerStyle={{...base.card, ...style.card}}>
         <TouchableOpacity onPress={onPress}>
           <Text style={base.cardTitle}>{note.title}</Text>
-          <Text style={base.cardDesc}>{ellipsis(note.description, 40)}</Text>
+          <Text style={base.cardDesc}>{ellipsis(note.description, 30)}</Text>
           <View style={base.cardBottom}>
             <View style={base.cardInfo}>
               <Icon name="history" size={15} color={colors.textGrey} />

@@ -19,12 +19,13 @@ export interface Note {
   title: string;
   description: string;
   duration: number;
-  prescriptions?: Prescription[];
+  prescriptions?: number[];
   [key: string]: any;
 }
 
 export interface Prescription {
   id: number;
+  noteId: number;
   name: string;
   dosage: string;
   [key: string]: any;

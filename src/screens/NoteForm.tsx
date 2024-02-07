@@ -1,18 +1,18 @@
 import {StyleSheet, View} from 'react-native';
-import React, {useState} from 'react';
+import React from 'react';
 import {RootStackParamList} from '../../App';
 import {StackScreenProps} from '@react-navigation/stack';
-import PrescriptionInput from '../components/PrescriptionInput';
 import {FlatList} from 'react-native-gesture-handler';
-import NoteFormHeader from '../components/NoteFormHeader';
-import NoteFormFooter from '../components/NoteFormFooter';
-import {Button, Icon} from '@rneui/themed';
-import {addNote, updateNote} from '../redux/notes/notesSlice';
+import {Button, Icon, Text} from '@rneui/themed';
+import base, {colors} from '../styles';
+import DateInput from '../components/DateInput';
+import {Field, Formik} from 'formik';
+import {readableDate} from '../utils';
+import TextInput from '../components/TextInput';
+import * as yup from 'yup';
 import {useAppDispatch} from '../hooks';
-import {useSelector} from 'react-redux';
-import {selectPatients} from '../redux/store';
-import {colors} from '../styles';
 import {Note} from '../../types';
+import {addNote} from '../redux/notes/notesSlice';
 
 type NoteFormNavigationProps = StackScreenProps<RootStackParamList, 'NoteForm'>;
 
@@ -22,107 +22,105 @@ interface NoteFormProp {
 }
 
 export default function NoteForm({route}: NoteFormProp) {
-  const originalNote = route.params.note;
-  const [note, setNote] = useState<Note | null>(originalNote);
-  const {patientItems} = useSelector(selectPatients);
   const dispatch = useAppDispatch();
+  const originalNote = route.params.note;
 
-  const handleChangeDate = (date: Date) => {
-    if (note) {
-      note.date = date.toISOString();
-    }
-  };
-
-  const handleChangeText = (e: string, name?: string) => {
-    setNote(prev => {
-      const newNote = Object.create(prev);
-      if (!name) {
-        return newNote;
-      }
-      newNote[name] = e;
-      return newNote;
-    });
-  };
-
-  const handleChangePrescription = (e: string, name: string, id: number) => {
-    setNote(prev => {
-      const newNote = Object.create(prev);
-      if (newNote.prescriptions) {
-        newNote.prescriptions[id][name] = e;
-      }
-      return newNote;
-    });
-  };
-
-  const addNewPrescription = () => {
-    const n = note?.prescriptions?.length || 0;
-    const newPrescription = {
-      id: n + 1,
-      name: '',
-      dosage: '',
-    };
-    setNote(prev => {
-      const newNote = Object.create(prev);
-      if (note?.prescriptions) {
-        newNote.prescriptions = [...note.prescriptions, newPrescription];
-      } else {
-        newNote.prescriptions = [newPrescription];
-      }
-      return newNote;
-    });
-  };
-
-  const onSubmit = () => {
-    const patientIdx = patientItems.findIndex(it => it.id === note?.patientId);
-    const newNote = Object.create(note);
-    if (patientIdx >= 0) {
-      const target = patientItems[patientIdx]?.notes?.findIndex(
-        it => it === note?.id,
-      );
-      if (target !== undefined && target >= 0) {
-        dispatch(updateNote({note: newNote, patientId: note?.patientId || -1}));
-      } else {
-        dispatch(addNote({note: newNote, patientId: note?.patientId || -1}));
-      }
-    }
-  };
+  const noteValidationSchema = yup.object().shape({
+    title: yup.string().min(3).required(),
+    duration: yup.number().min(2).required(),
+    description: yup.string().min(10).max(150).required(),
+    date: yup.date().required(),
+  });
 
   return (
     <View style={style.container}>
-      <View style={style.listContainer}>
-        <FlatList
-          ListHeaderComponent={
-            <NoteFormHeader
-              note={note}
-              handleChangeText={handleChangeText}
-              handleChangeDate={handleChangeDate}
-            />
+      <Formik
+        validationSchema={noteValidationSchema}
+        initialValues={
+          originalNote || {
+            title: '',
+            date: new Date().toISOString(),
+            duration: '0',
+            description: '',
           }
-          ListFooterComponent={
-            <View style={style.addPrescription}>
-              <Button
-                titleStyle={style.buttonTitle}
-                type="clear"
-                onPress={addNewPrescription}>
-                Add a new prescription
-                <Icon name="touch-app" color={colors.hotPink} />
-              </Button>
+        }
+        onSubmit={values => {
+          dispatch(addNote(values as Note));
+        }}>
+        {({
+          handleChange,
+          handleSubmit,
+          setFieldValue,
+          values,
+          errors,
+          isValid,
+        }) => (
+          <>
+            <Field
+              component={TextInput}
+              containerStyle={style.title}
+              placeholder="New Title"
+              label={'Title'}
+              onChangeText={handleChange('title')}
+              errorMessage={errors.title}
+            />
+            <View style={style.dateDurationContainer}>
+              <DateInput
+                label="Date"
+                containerStyle={style.date}
+                date={readableDate(values.date)}
+                onConfirm={(date: Date) => {
+                  setFieldValue('date', date.toISOString());
+                }}
+              />
+              <Field
+                component={TextInput}
+                containerStyle={style.duration}
+                keyboardType="numeric"
+                placeholder="0"
+                label="Est. Duration"
+                onChangeText={handleChange('duration')}
+                errorMessage={errors.duration}
+              />
             </View>
-          }
-          data={note?.prescriptions}
-          keyExtractor={(_, idx) => idx.toString()}
-          renderItem={({item, index}) => (
-            <PrescriptionInput
-              prescription={item}
-              handleChangePrescription={(text, name) => {
-                handleChangePrescription(text, name, index);
-              }}
+            <Field
+              component={TextInput}
+              multiline={true}
+              label="Description"
+              placeholder="New Description"
+              numberOfLines={4}
+              maxLength={160}
+              onChangeText={handleChange('description')}
+              errorMessage={errors.description}
             />
-          )}
-          removeClippedSubviews={false}
-        />
-      </View>
-      <NoteFormFooter onSubmit={onSubmit} />
+            <Text h4>Prescriptions:</Text>
+            <FlatList
+              ListFooterComponent={
+                <View style={style.addPrescription}>
+                  <Button titleStyle={style.buttonTitle} type="clear">
+                    Add a new prescription
+                    <Icon name="touch-app" color={colors.hotPink} />
+                  </Button>
+                </View>
+              }
+              data={[1, 2]}
+              keyExtractor={(_, idx) => idx.toString()}
+              renderItem={({item}) => <Text>{item}</Text>}
+              removeClippedSubviews={false}
+            />
+            <Button
+              buttonStyle={base.button}
+              titleStyle={base.buttonTitle}
+              size="lg"
+              disabled={!isValid}
+              onPress={() => {
+                handleSubmit();
+              }}>
+              Save
+            </Button>
+          </>
+        )}
+      </Formik>
     </View>
   );
 }
@@ -132,10 +130,6 @@ const style = StyleSheet.create({
     flex: 1,
     marginHorizontal: 15,
   },
-  listContainer: {
-    flex: 1,
-    flexGrow: 1,
-  },
   addPrescription: {
     marginVertical: 10,
   },
@@ -143,5 +137,18 @@ const style = StyleSheet.create({
     fontSize: 16,
     color: colors.hotPink,
     fontWeight: 'bold',
+  },
+  title: {
+    marginTop: 10,
+  },
+  dateDurationContainer: {
+    flexDirection: 'row',
+    alignItems: 'baseline',
+  },
+  date: {
+    flex: 1,
+  },
+  duration: {
+    flex: 1,
   },
 });
