@@ -10,7 +10,11 @@ interface NoteFormFooterProps {
 export default function NoteFormFooter({onSubmit}: NoteFormFooterProps) {
   return (
     <View style={style.container}>
-      <Button buttonStyle={base.button} size="lg" onPress={onSubmit}>
+      <Button
+        buttonStyle={base.button}
+        titleStyle={base.buttonTitle}
+        size="lg"
+        onPress={onSubmit}>
         Save
       </Button>
     </View>

@@ -3,7 +3,7 @@ import React from 'react';
 import {Patient} from '../../types';
 import {Avatar, Card, Icon, Text} from '@rneui/themed';
 import {TouchableOpacity} from 'react-native-gesture-handler';
-import base from '../styles';
+import base, {colors} from '../styles';
 
 export interface PatientCardProps {
   patient: Patient;
@@ -13,7 +13,7 @@ export interface PatientCardProps {
 export default function PatientCard({patient, onPress}: PatientCardProps) {
   return (
     <View style={base.cardContainer}>
-      <Card containerStyle={base.card}>
+      <Card containerStyle={{...base.card, ...style.card}}>
         <TouchableOpacity onPress={onPress}>
           <Avatar
             size={64}
@@ -45,4 +45,5 @@ const style = StyleSheet.create({
     marginRight: 'auto',
     marginBottom: 10,
   },
+  card: {backgroundColor: colors.yellow},
 });

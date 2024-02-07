@@ -8,6 +8,7 @@ import {Note, Patient} from './types';
 import {Provider} from 'react-redux';
 import {store} from './src/redux/store';
 import PatientForm from './src/screens/PatientForm';
+import {colors} from './src/styles';
 
 export type RootStackParamList = {
   PatientList: undefined;
@@ -22,7 +23,10 @@ function App(): React.JSX.Element {
   return (
     <Provider store={store}>
       <NavigationContainer>
-        <Stack.Navigator>
+        <Stack.Navigator
+          screenOptions={{
+            cardStyle: {backgroundColor: colors.white},
+          }}>
           <Stack.Screen name="PatientList" component={PatientList} />
           <Stack.Screen name="PatientDetails" component={PatientDetails} />
           <Stack.Screen name="NoteForm" component={NoteForm} />

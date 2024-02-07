@@ -2,7 +2,7 @@ import {View, StyleSheet} from 'react-native';
 import React, {useState} from 'react';
 import {Avatar, Tab, Text, Button, Icon} from '@rneui/themed';
 import {Patient} from '../../types';
-import base from '../styles';
+import base, {colors} from '../styles';
 
 interface PatientDetailsHeaderProps {
   patient: Patient;
@@ -32,16 +32,23 @@ export default function PatientDetailsHeader({
         <Button
           containerStyle={style.takeNote}
           buttonStyle={base.button}
+          titleStyle={base.buttonTitle}
           onPress={onTakeNote}
           size="lg">
           Take note
         </Button>
         <Button buttonStyle={style.bookmark} type="outline" size="md">
-          <Icon name="bookmark-outline" />
+          <Icon name="bookmark-outline" color={colors.tiffanyBlue} />
         </Button>
       </View>
 
-      <Tab containerStyle={style.tab} value={index} onChange={setIndex} dense>
+      <Tab
+        titleStyle={style.tabTitle}
+        containerStyle={style.tab}
+        indicatorStyle={style.tabIndicator}
+        value={index}
+        onChange={setIndex}
+        dense>
         <Tab.Item>All</Tab.Item>
         <Tab.Item>Bookmarked</Tab.Item>
       </Tab>
@@ -54,6 +61,8 @@ const style = StyleSheet.create({
     marginLeft: 'auto',
     marginRight: 'auto',
     marginTop: 20,
+    backgroundColor: colors.yellow,
+    borderColor: colors.darkGrey,
   },
   title: {
     textAlign: 'center',
@@ -75,10 +84,18 @@ const style = StyleSheet.create({
     flex: 1,
   },
   bookmark: {
+    borderColor: colors.tiffanyBlue,
     borderRadius: 12,
     borderWidth: 2,
   },
   tab: {
     marginTop: 10,
+  },
+  tabTitle: {
+    color: colors.darkGrey,
+  },
+  tabIndicator: {
+    backgroundColor: colors.darkGrey,
+    height: 1,
   },
 });

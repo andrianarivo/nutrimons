@@ -6,13 +6,14 @@ import PrescriptionInput from '../components/PrescriptionInput';
 import {FlatList} from 'react-native-gesture-handler';
 import NoteFormHeader from '../components/NoteFormHeader';
 import NoteFormFooter from '../components/NoteFormFooter';
-import {Button} from '@rneui/themed';
+import {Button, Icon} from '@rneui/themed';
 import {addNote, updateNote} from '../redux/notes/notesSlice';
 import {useAppDispatch} from '../hooks';
 import {useSelector} from 'react-redux';
 import {selectPatients, selectPrescriptions} from '../redux/store';
 import {getPrescriptions} from '../redux/prescriptions/prescriptionsSlice';
 import {deepCopy} from '../utils';
+import {colors} from '../styles';
 
 type NoteFormNavigationProps = StackScreenProps<RootStackParamList, 'NoteForm'>;
 
@@ -107,8 +108,12 @@ export default function NoteForm({route}: NoteFormProp) {
           }
           ListFooterComponent={
             <View style={style.addPrescription}>
-              <Button type="clear" onPress={addNewPrescription}>
+              <Button
+                titleStyle={style.buttonTitle}
+                type="clear"
+                onPress={addNewPrescription}>
                 Add a new prescription
+                <Icon name="touch-app" color={colors.tiffanyBlue} />
               </Button>
             </View>
           }
@@ -141,5 +146,10 @@ const style = StyleSheet.create({
   },
   addPrescription: {
     marginVertical: 10,
+  },
+  buttonTitle: {
+    fontSize: 16,
+    color: colors.tiffanyBlue,
+    fontWeight: 'bold',
   },
 });

@@ -1,7 +1,7 @@
-import {TouchableOpacity, View} from 'react-native';
+import {StyleSheet, TouchableOpacity, View} from 'react-native';
 import React from 'react';
 import {Card, Icon, Text} from '@rneui/themed';
-import base from '../styles';
+import base, {colors} from '../styles';
 import {Note} from '../../types';
 import {ellipsis} from '../utils';
 
@@ -13,7 +13,7 @@ interface NoteCardProps {
 export default function NoteCard({note, onPress}: NoteCardProps) {
   return (
     <View style={base.cardContainer}>
-      <Card containerStyle={base.card}>
+      <Card containerStyle={{...base.card, ...style.card}}>
         <TouchableOpacity onPress={onPress}>
           <Text style={base.cardTitle}>{note.title}</Text>
           <Text style={base.cardDesc}>{ellipsis(note.description, 40)}</Text>
@@ -29,3 +29,10 @@ export default function NoteCard({note, onPress}: NoteCardProps) {
     </View>
   );
 }
+
+const style = StyleSheet.create({
+  card: {
+    backgroundColor: colors.mint,
+    borderColor: colors.tiffanyBlue,
+  },
+});

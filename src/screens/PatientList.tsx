@@ -8,6 +8,7 @@ import {selectPatients} from '../redux/store';
 import {FAB, Text} from '@rneui/themed';
 import {useAppDispatch} from '../hooks';
 import {getPatients} from '../redux/patients/patientsSlice';
+import {colors} from '../styles';
 
 type PatientListNavigationProp = StackNavigationProp<
   RootStackParamList,
@@ -69,6 +70,7 @@ export default function PatientList({navigation}: PatientListProps) {
           name: 'add',
           color: 'white',
         }}
+        color={colors.hotPink}
         onPress={() => {
           navigation.navigate('PatientForm', {patient: null});
         }}

@@ -2,6 +2,7 @@ import {StyleSheet, View, ViewStyle} from 'react-native';
 import React, {useState} from 'react';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import {Button, Text} from '@rneui/themed';
+import {colors} from '../styles';
 
 interface DateInputProps {
   label?: string;
@@ -45,21 +46,21 @@ export default function DateInput({
 
 const style = StyleSheet.create({
   button: {
-    backgroundColor: '#f0f0f5',
-    borderColor: '#717071',
-    borderWidth: 1,
+    backgroundColor: colors.lightGrey,
+    borderColor: colors.borderGrey,
+    borderWidth: 1.5,
     borderRadius: 15,
     height: 50,
     marginLeft: 10,
     marginRight: 10,
   },
   title: {
-    color: '#717071',
+    color: colors.black,
   },
   label: {
     marginLeft: 10,
     fontSize: 16,
     fontWeight: 'bold',
-    color: 'grey',
+    color: colors.grey,
   },
 });

@@ -1,40 +1,18 @@
 import {ScrollView, StyleSheet, View} from 'react-native';
 import React from 'react';
 import TextInput from '../components/TextInput';
-import {Dropdown} from 'react-native-element-dropdown';
-import {Button, Text} from '@rneui/themed';
+import {Button} from '@rneui/themed';
 import base from '../styles';
+import GenderInput from '../components/GenderInput';
 
 export default function PatientForm() {
-  const data = [
-    {label: 'male', value: 'm'},
-    {label: 'female', value: 'f'},
-  ];
   return (
     <ScrollView contentContainerStyle={style.container}>
       <TextInput label="First Name" value="" />
       <TextInput label="Name" value="" />
       <View style={style.ageSexContainer}>
-        <TextInput label="Age" value="" containerStyle={style.halfw} />
-        <Dropdown
-          data={data}
-          renderItem={({label}) => {
-            return <Text>{label}</Text>;
-          }}
-          style={{
-            ...style.halfw,
-            ...style.dropdown,
-          }}
-          containerStyle={style.dropdownContainer}
-          itemContainerStyle={style.dropdownItemContainer}
-          selectedTextStyle={style.dropdownText}
-          placeholderStyle={style.dropdownText}
-          labelField="label"
-          valueField="value"
-          onChange={({value}) => {
-            console.log(value);
-          }}
-        />
+        <TextInput label="Age" value="" containerStyle={base.halfw} />
+        <GenderInput containerStyle={base.halfw} />
       </View>
       <TextInput label="Height" keyboardType="numeric" value="" />
       <TextInput label="Weight" keyboardType="numeric" value="" />
@@ -61,28 +39,6 @@ const style = StyleSheet.create({
   ageSexContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-  halfw: {
-    width: '50%',
-  },
-  dropdown: {
-    borderWidth: 1,
-    borderColor: 'black',
-    borderRadius: 15,
-    height: 50,
-    marginBottom: 5,
-  },
-  dropdownContainer: {
-    borderWidth: 1,
-    borderColor: 'black',
-    borderRadius: 10,
-  },
-  dropdownText: {
-    color: 'black',
-    paddingLeft: 10,
-  },
-  dropdownItemContainer: {
-    padding: 10,
+    alignItems: 'baseline',
   },
 });
