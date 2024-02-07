@@ -1,6 +1,6 @@
 import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
 import {Prescription} from '../../../types';
-import db from '../../db';
+import {storage} from '../../db';
 
 export interface PrescriptionSliceState {
   prescriptionItems: Prescription[];
@@ -20,18 +20,31 @@ const getPrescriptions = createAsyncThunk<
   Prescription[] | undefined,
   number | undefined
 >('nutrimons/getPrescriptions', async noteId => {
-  if (noteId) {
-    return Promise.resolve(db.prescriptions.filter(p => p.noteId === noteId));
-  } else {
-    return Promise.resolve([]);
+  const prescriptionsJSON = storage.getString('prescriptions');
+  if (prescriptionsJSON) {
+    const prescriptions = JSON.parse(prescriptionsJSON);
+    return Promise.resolve(
+      prescriptions.filter((p: Prescription) => p.noteId === noteId),
+    );
   }
+  return Promise.resolve([]);
 });
 
 const addPrescription = createAsyncThunk<
   Prescription | undefined,
-  Prescription
->('nutrimons/addPrescription', async prescription => {
-  prescription.id = db.prescriptions.length + 1;
+  {prescription: Prescription; noteId: number}
+>('nutrimons/addPrescription', async ({prescription, noteId}) => {
+  const prescriptionsJSON = storage.getString('prescriptions');
+  prescription.noteId = noteId;
+  if (prescriptionsJSON) {
+    const prescriptions = JSON.parse(prescriptionsJSON);
+    prescription.id = prescriptions.length + 1;
+    prescriptions.push(prescription);
+    storage.set('prescriptions', JSON.stringify(prescriptions));
+  } else {
+    prescription.id = 1;
+    storage.set('prescriptions', JSON.stringify([prescription]));
+  }
   return Promise.resolve(prescription);
 });
 

@@ -21,9 +21,6 @@ export default function PrescriptionList({
   const {prescriptionItems} = useSelector(selectPrescriptions);
 
   useEffect(() => {
-    if (prescriptionItems.length > 0) {
-      return;
-    }
     dispatch(getPrescriptions(noteId));
   }, [dispatch, noteId, prescriptionItems.length]);
 

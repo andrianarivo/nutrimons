@@ -1,6 +1,6 @@
 import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
 import {Note} from '../../../types';
-import db from '../../db';
+import {storage} from '../../db';
 
 export interface NoteSliceState {
   noteItems: Note[];
@@ -19,25 +19,50 @@ const initialState: NoteSliceState = {
 const getNotes = createAsyncThunk<Note[] | undefined, number>(
   'nutrimons/getNotes',
   async patientId => {
-    return Promise.resolve(db.notes.filter(n => n.patientId === patientId));
+    const notesJSON = storage.getString('notes');
+    if (notesJSON) {
+      const notes = JSON.parse(notesJSON);
+      return Promise.resolve(
+        notes.filter((n: Note) => n.patientId === patientId),
+      );
+    }
+    return Promise.resolve([]);
   },
 );
 
 const updateNote = createAsyncThunk<
-  Note[] | undefined,
+  Note | undefined,
   {note: Note; patientId: number}
->('nutrimons/updateNote', async ({note, patientId}) => {
-  console.log(note);
-  return Promise.resolve(db.notes.filter(n => n.patientId === patientId));
+>('nutrimons/updateNote', async ({note, patientId}, thunkAPI) => {
+  const notesJSON = storage.getString('notes');
+  note.patientId = patientId;
+  if (notesJSON) {
+    const notes = JSON.parse(notesJSON);
+    const target = notes.findIndex((n: Note) => n.id === note.id);
+    notes.splice(target, 1, note);
+    storage.set('notes', JSON.stringify(notes));
+    return Promise.resolve(note);
+  }
+  return thunkAPI.rejectWithValue('Note not found');
 });
 
-const addNote = createAsyncThunk<Note | undefined, Note>(
-  'nutrimons/addNote',
-  async note => {
-    note.id = db.notes.length + 1;
-    return Promise.resolve(note);
-  },
-);
+const addNote = createAsyncThunk<
+  Note | undefined,
+  {note: Note; patientId: number}
+>('nutrimons/addNote', async ({note, patientId}) => {
+  const notesJSON = storage.getString('notes');
+  note.patientId = patientId;
+  if (notesJSON) {
+    const notes = JSON.parse(notesJSON);
+    note.id = notes.length + 1;
+    notes.push(note);
+    storage.set('notes', JSON.stringify(notes));
+  } else {
+    note.id = 1;
+    storage.set('notes', JSON.stringify([note]));
+  }
+  return Promise.resolve(note);
+});
 
 const notesSlice = createSlice({
   name: 'notes',
@@ -73,7 +98,10 @@ const notesSlice = createSlice({
       state.loading = false;
       state.error = false;
       state.errMsg = '';
-      state.noteItems = payload || [];
+      if (payload) {
+        const target = state.noteItems.findIndex(n => n.id === payload.id);
+        state.noteItems.splice(target, 1, payload);
+      }
     });
     builder.addCase(updateNote.rejected, (state, {error}) => {
       state.loading = false;

@@ -46,8 +46,10 @@ export default function PrescriptionForm({
           }
         }
         onSubmit={async values => {
-          console.log('values', values);
-          await dispatch(addPrescription(values as Prescription));
+          const newPrescription = values as Prescription;
+          await dispatch(
+            addPrescription({prescription: newPrescription, noteId}),
+          );
           navigation.goBack();
         }}>
         {({handleSubmit, handleChange, errors, isValid}) => (

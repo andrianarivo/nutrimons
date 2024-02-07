@@ -11,7 +11,7 @@ import TextInput from '../components/TextInput';
 import * as yup from 'yup';
 import {useAppDispatch} from '../hooks';
 import {Note} from '../../types';
-import {addNote} from '../redux/notes/notesSlice';
+import {addNote, updateNote} from '../redux/notes/notesSlice';
 import PrescriptionList from '../components/PrescriptionList';
 import {useSelector} from 'react-redux';
 import {selectNotes} from '../redux/store';
@@ -27,6 +27,7 @@ export default function NoteForm({route, navigation}: NoteFormProp) {
   const dispatch = useAppDispatch();
   const {noteItems} = useSelector(selectNotes);
   const originalNote = route.params.note;
+  const patientId = route.params.patientId;
 
   const noteValidationSchema = yup.object().shape({
     title: yup.string().min(3).required(),
@@ -48,7 +49,13 @@ export default function NoteForm({route, navigation}: NoteFormProp) {
           }
         }
         onSubmit={values => {
-          dispatch(addNote(values as Note));
+          const newNote = values as Note;
+          if (originalNote) {
+            dispatch(updateNote({note: newNote, patientId}));
+          } else {
+            dispatch(addNote({note: newNote, patientId}));
+          }
+          navigation.goBack();
         }}>
         {({
           handleChange,
@@ -64,6 +71,7 @@ export default function NoteForm({route, navigation}: NoteFormProp) {
               containerStyle={style.title}
               placeholder="New Title"
               label={'Title'}
+              value={values.title}
               onChangeText={handleChange('title')}
               errorMessage={errors.title}
             />
@@ -81,6 +89,7 @@ export default function NoteForm({route, navigation}: NoteFormProp) {
                 containerStyle={style.duration}
                 keyboardType="numeric"
                 placeholder="0"
+                value={values.duration}
                 label="Est. Duration"
                 onChangeText={handleChange('duration')}
                 errorMessage={errors.duration}
@@ -93,6 +102,7 @@ export default function NoteForm({route, navigation}: NoteFormProp) {
               placeholder="New Description"
               numberOfLines={4}
               maxLength={160}
+              value={values.description}
               onChangeText={handleChange('description')}
               errorMessage={errors.description}
             />

@@ -1,6 +1,6 @@
 import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
 import {Patient} from '../../../types';
-import db from '../../db';
+import db, {storage} from '../../db';
 
 export interface PatientSliceState {
   patientItems: Patient[];
@@ -19,7 +19,11 @@ const initialState: PatientSliceState = {
 const getPatients = createAsyncThunk<Patient[] | undefined>(
   'nutrimons/getPatients',
   async () => {
-    return Promise.resolve(db.patients);
+    const patientsJSON = storage.getString('patients');
+    if (patientsJSON) {
+      return Promise.resolve(JSON.parse(patientsJSON));
+    }
+    return Promise.resolve([]);
   },
 );
 
@@ -35,7 +39,16 @@ const updatePatient = createAsyncThunk<Patient | undefined, {patient: Patient}>(
 const addPatient = createAsyncThunk<Patient | undefined, Patient>(
   'nutrimons/addPatient',
   async patient => {
-    patient.id = db.patients.length + 1;
+    const patientsJSON = storage.getString('patients');
+    if (patientsJSON) {
+      const patients = JSON.parse(patientsJSON);
+      patient.id = patients.length + 1;
+      patients.push(patient);
+      storage.set('patients', JSON.stringify(patients));
+    } else {
+      patient.id = 1;
+      storage.set('patients', JSON.stringify([patient]));
+    }
     return Promise.resolve(patient);
   },
 );
