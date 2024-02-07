@@ -1,11 +1,11 @@
-import {FlatList} from 'react-native';
+import {FlatList, StyleSheet, View} from 'react-native';
 import React, {useEffect} from 'react';
 import PatientCard from '../components/PatientCard';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {RootStackParamList} from '../../App';
 import {useSelector} from 'react-redux';
 import {selectPatients} from '../redux/store';
-import {Text} from '@rneui/themed';
+import {FAB, Text} from '@rneui/themed';
 import {useAppDispatch} from '../hooks';
 import {getPatients} from '../redux/patients/patientsSlice';
 
@@ -46,18 +46,43 @@ export default function PatientList({navigation}: PatientListProps) {
   }
 
   return (
-    <FlatList
-      data={patientItems}
-      numColumns={2}
-      keyExtractor={({id}, _) => id.toString()}
-      renderItem={({item}) => (
-        <PatientCard
-          patient={item}
-          onPress={() => {
-            navigation.navigate('PatientDetails', {id: item.id});
-          }}
+    <View style={style.container}>
+      <View style={style.listContainer}>
+        <FlatList
+          data={patientItems}
+          numColumns={2}
+          keyExtractor={({id}, _) => id.toString()}
+          renderItem={({item}) => (
+            <PatientCard
+              patient={item}
+              onPress={() => {
+                navigation.navigate('PatientDetails', {id: item.id});
+              }}
+            />
+          )}
         />
-      )}
-    />
+      </View>
+      <FAB
+        placement="right"
+        size="large"
+        icon={{
+          name: 'add',
+          color: 'white',
+        }}
+        onPress={() => {
+          navigation.navigate('PatientForm', {patient: null});
+        }}
+      />
+    </View>
   );
 }
+
+const style = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  listContainer: {
+    flex: 1,
+    flexGrow: 1,
+  },
+});

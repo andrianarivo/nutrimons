@@ -11,11 +11,8 @@ import {addNote, updateNote} from '../redux/notes/notesSlice';
 import {useAppDispatch} from '../hooks';
 import {useSelector} from 'react-redux';
 import {selectPatients, selectPrescriptions} from '../redux/store';
-import {
-  addPrescription,
-  getPrescriptions,
-  updatePrescription,
-} from '../redux/prescriptions/prescriptionsSlice';
+import {getPrescriptions} from '../redux/prescriptions/prescriptionsSlice';
+import {deepCopy} from '../utils';
 
 type NoteFormNavigationProps = StackScreenProps<RootStackParamList, 'NoteForm'>;
 
@@ -25,7 +22,7 @@ interface NoteFormProp {
 }
 
 export default function NoteForm({route}: NoteFormProp) {
-  const originalNote = route.params.note;
+  const originalNote = deepCopy(route.params.note);
   const patientId = route.params.patientId;
   const [note, setNote] = useState(originalNote);
   const {patientItems} = useSelector(selectPatients);
@@ -52,20 +49,31 @@ export default function NoteForm({route}: NoteFormProp) {
   };
 
   const handleChangePrescription = (e: string, name: string, id: number) => {
-    const newPrescription = {
-      ...prescriptionItems[id],
-      [name]: e,
-    };
-    dispatch(updatePrescription(newPrescription));
+    setNote(prev => {
+      const newNote = {...prev};
+      if (newNote.prescriptions) {
+        newNote.prescriptions[id][name] = e;
+      }
+      return newNote;
+    });
   };
 
   const addNewPrescription = () => {
+    const n = note.prescriptions?.length || 0;
     const newPrescription = {
-      id: prescriptionItems.length + 1,
+      id: n + 1,
       name: '',
       dosage: '',
     };
-    dispatch(addPrescription(newPrescription));
+    setNote(prev => {
+      const newNote = {...prev};
+      if (note.prescriptions) {
+        newNote.prescriptions = [...note.prescriptions, newPrescription];
+      } else {
+        newNote.prescriptions = [newPrescription];
+      }
+      return newNote;
+    });
   };
 
   const onSubmit = () => {
@@ -104,7 +112,7 @@ export default function NoteForm({route}: NoteFormProp) {
               </Button>
             </View>
           }
-          data={prescriptionItems}
+          data={note.prescriptions}
           keyExtractor={(_, idx) => idx.toString()}
           renderItem={({item, index}) => (
             <PrescriptionInput

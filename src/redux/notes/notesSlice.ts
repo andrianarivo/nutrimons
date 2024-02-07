@@ -1,6 +1,7 @@
 import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
 import {Note} from '../../../types';
 import db from '../../db';
+import {deepCopy} from '../../utils';
 
 export interface NoteSliceState {
   noteItems: Note[];
@@ -26,15 +27,22 @@ const getNotes = createAsyncThunk<Note[] | undefined, number>(
 );
 
 const updateNote = createAsyncThunk<
-  Note | undefined,
+  Note[] | undefined,
   {note: Note; patientId: number}
 >('nutrimons/updateNote', async ({note, patientId}) => {
+  const patient = db.patients.find(p => p.id === patientId);
   const idx =
     db.patients
       .find(p => p.id === patientId)
       ?.notes?.findIndex(n => n.id === patientId) || 0;
-  db.patients.find(p => p.id === patientId)?.notes?.splice(idx, 1, note);
-  return Promise.resolve(note);
+  if (patient) {
+    const notes = patient.notes;
+    const notesCopy = deepCopy(notes);
+    notesCopy?.splice(idx, 1, note);
+    patient.notes = notesCopy;
+    console.log(patient.notes);
+  }
+  return Promise.resolve(patient?.notes);
 });
 
 const addNote = createAsyncThunk<
@@ -55,6 +63,7 @@ const notesSlice = createSlice({
     }),
   },
   extraReducers: builder => {
+    // getNotes
     builder.addCase(getNotes.pending, state => {
       state.loading = true;
       state.error = false;
@@ -69,6 +78,40 @@ const notesSlice = createSlice({
       }
     });
     builder.addCase(getNotes.rejected, (state, {error}) => {
+      state.loading = false;
+      state.error = true;
+      state.errMsg = error.message;
+    });
+    // updateNote
+    builder.addCase(updateNote.pending, state => {
+      state.loading = true;
+      state.error = false;
+      state.errMsg = '';
+    });
+    builder.addCase(updateNote.fulfilled, (state, {payload}) => {
+      state.loading = false;
+      state.error = false;
+      state.errMsg = '';
+      state.noteItems = payload || [];
+    });
+    builder.addCase(updateNote.rejected, (state, {error}) => {
+      state.loading = false;
+      state.error = true;
+      state.errMsg = error.message;
+    });
+    // addNote
+    builder.addCase(addNote.pending, state => {
+      state.loading = true;
+      state.error = false;
+      state.errMsg = '';
+    });
+    builder.addCase(addNote.fulfilled, (state, {payload}) => {
+      state.loading = false;
+      state.error = false;
+      state.errMsg = '';
+      state.noteItems = [...state.noteItems, payload as Note];
+    });
+    builder.addCase(addNote.rejected, (state, {error}) => {
       state.loading = false;
       state.error = true;
       state.errMsg = error.message;
