@@ -38,7 +38,7 @@ export default function PatientDetailsHeader({
           Take note
         </Button>
         <Button buttonStyle={style.bookmark} type="outline" size="md">
-          <Icon name="bookmark-outline" color={colors.tiffanyBlue} />
+          <Icon name="bookmark" color={colors.yellow} />
         </Button>
       </View>
 
@@ -84,7 +84,7 @@ const style = StyleSheet.create({
     flex: 1,
   },
   bookmark: {
-    borderColor: colors.tiffanyBlue,
+    borderColor: colors.yellow,
     borderRadius: 12,
     borderWidth: 2,
   },

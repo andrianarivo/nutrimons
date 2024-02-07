@@ -23,7 +23,7 @@ export default StyleSheet.create({
   },
   cardDesc: {
     fontSize: 14,
-    color: colors.darkGrey,
+    color: colors.textGrey,
   },
   cardInfo: {
     display: 'flex',
@@ -32,7 +32,7 @@ export default StyleSheet.create({
     gap: 5,
   },
   cardInfoText: {
-    color: colors.darkGrey,
+    color: colors.textGrey,
   },
   cardBottom: {
     display: 'flex',
@@ -42,7 +42,7 @@ export default StyleSheet.create({
   },
   button: {
     borderRadius: 15,
-    backgroundColor: colors.tiffanyBlue,
+    backgroundColor: colors.yellow,
   },
   buttonTitle: {
     color: colors.black,

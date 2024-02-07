@@ -60,7 +60,7 @@ const style = StyleSheet.create({
   },
   dropdownFocus: {
     borderWidth: 1.5,
-    borderColor: colors.tiffanyBlue,
+    borderColor: colors.black,
     backgroundColor: colors.lightGrey,
     borderRadius: 15,
     height: 50,
@@ -68,7 +68,7 @@ const style = StyleSheet.create({
   },
   dropdownContainer: {
     borderWidth: 1.5,
-    borderColor: colors.tiffanyBlue,
+    borderColor: colors.black,
     borderRadius: 10,
   },
   dropdownText: {

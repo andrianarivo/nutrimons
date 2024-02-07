@@ -19,10 +19,10 @@ export default function NoteCard({note, onPress}: NoteCardProps) {
           <Text style={base.cardDesc}>{ellipsis(note.description, 40)}</Text>
           <View style={base.cardBottom}>
             <View style={base.cardInfo}>
-              <Icon name="history" size={15} color="grey" />
+              <Icon name="history" size={15} color={colors.textGrey} />
               <Text style={base.cardInfoText}>{note.duration} min listen</Text>
             </View>
-            <Icon name="bookmark-outline" color="grey" />
+            <Icon name="bookmark-outline" color={colors.textGrey} />
           </View>
         </TouchableOpacity>
       </Card>
@@ -32,7 +32,7 @@ export default function NoteCard({note, onPress}: NoteCardProps) {
 
 const style = StyleSheet.create({
   card: {
-    backgroundColor: colors.mint,
-    borderColor: colors.tiffanyBlue,
+    backgroundColor: colors.lightGrey,
+    borderColor: colors.darkGrey,
   },
 });

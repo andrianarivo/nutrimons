@@ -1,22 +1,57 @@
 import {ScrollView, StyleSheet, View} from 'react-native';
 import React from 'react';
 import TextInput from '../components/TextInput';
-import {Button} from '@rneui/themed';
-import base from '../styles';
+import {Button, Icon} from '@rneui/themed';
+import base, {colors} from '../styles';
 import GenderInput from '../components/GenderInput';
 
 export default function PatientForm() {
   return (
     <ScrollView contentContainerStyle={style.container}>
-      <TextInput label="First Name" value="" />
-      <TextInput label="Name" value="" />
+      <TextInput
+        label="First Name"
+        value=""
+        leftIcon={
+          <Icon
+            style={style.icon}
+            color={colors.black}
+            name="supervisor-account"
+          />
+        }
+      />
+      <TextInput
+        label="Name"
+        value=""
+        leftIcon={<Icon style={style.icon} color={colors.black} name="face" />}
+      />
       <View style={style.ageSexContainer}>
         <TextInput label="Age" value="" containerStyle={base.halfw} />
         <GenderInput containerStyle={base.halfw} />
       </View>
-      <TextInput label="Height" keyboardType="numeric" value="" />
-      <TextInput label="Weight" keyboardType="numeric" value="" />
-      <TextInput label="Hour rate in $" keyboardType="numeric" value="" />
+      <TextInput
+        label="Height"
+        keyboardType="numeric"
+        value=""
+        leftIcon={
+          <Icon style={style.icon} color={colors.black} name="upgrade" />
+        }
+      />
+      <TextInput
+        label="Weight"
+        keyboardType="numeric"
+        value=""
+        leftIcon={
+          <Icon style={style.icon} color={colors.black} name="balance" />
+        }
+      />
+      <TextInput
+        label="Hour rate in $"
+        keyboardType="numeric"
+        value=""
+        leftIcon={
+          <Icon style={style.icon} color={colors.black} name="hourglass-top" />
+        }
+      />
       <TextInput
         label="Summary"
         multiline
@@ -24,7 +59,11 @@ export default function PatientForm() {
         numberOfLines={4}
         value=""
       />
-      <Button buttonStyle={base.button} size="lg" onPress={() => {}}>
+      <Button
+        titleStyle={base.buttonTitle}
+        buttonStyle={base.button}
+        size="lg"
+        onPress={() => {}}>
         Save
       </Button>
     </ScrollView>
@@ -40,5 +79,8 @@ const style = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'baseline',
+  },
+  icon: {
+    marginLeft: 5,
   },
 });

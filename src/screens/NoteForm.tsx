@@ -113,7 +113,7 @@ export default function NoteForm({route}: NoteFormProp) {
                 type="clear"
                 onPress={addNewPrescription}>
                 Add a new prescription
-                <Icon name="touch-app" color={colors.tiffanyBlue} />
+                <Icon name="touch-app" color={colors.hotPink} />
               </Button>
             </View>
           }
@@ -149,7 +149,7 @@ const style = StyleSheet.create({
   },
   buttonTitle: {
     fontSize: 16,
-    color: colors.tiffanyBlue,
+    color: colors.hotPink,
     fontWeight: 'bold',
   },
 });

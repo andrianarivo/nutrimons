@@ -28,10 +28,10 @@ export default function PatientCard({patient, onPress}: PatientCardProps) {
           <Text style={base.cardDesc}>{patient.summary}</Text>
           <View style={base.cardBottom}>
             <View style={base.cardInfo}>
-              <Icon name="euro" size={15} color="grey" />
+              <Icon name="euro" size={15} color={colors.textGrey} />
               <Text style={base.cardInfoText}>{patient.hourRate} per hour</Text>
             </View>
-            <Icon name="bookmark-outline" color="grey" />
+            <Icon name="bookmark-outline" color={colors.textGrey} />
           </View>
         </TouchableOpacity>
       </Card>
@@ -41,6 +41,7 @@ export default function PatientCard({patient, onPress}: PatientCardProps) {
 
 const style = StyleSheet.create({
   avatar: {
+    backgroundColor: colors.grey,
     marginLeft: 'auto',
     marginRight: 'auto',
     marginBottom: 10,

@@ -2,6 +2,7 @@ import {StyleSheet, ViewStyle} from 'react-native';
 import React, {useState} from 'react';
 import {Input} from '@rneui/themed';
 import base, {colors} from '../styles';
+import {IconNode} from '@rneui/base';
 
 interface InputProps {
   value: string;
@@ -13,6 +14,8 @@ interface InputProps {
   numberOfLines?: number;
   maxLength?: number;
   name?: string;
+  leftIcon?: IconNode;
+  rightIcon?: IconNode;
   onChangeText?: (text: string, name?: string) => void;
 }
 
@@ -26,6 +29,8 @@ export default function TextInput({
   numberOfLines,
   containerStyle,
   name,
+  leftIcon,
+  rightIcon,
   onChangeText,
 }: InputProps) {
   const [inputContainerStyle, setContainerStyle] = useState(
@@ -56,6 +61,8 @@ export default function TextInput({
         onChangeText?.(text, name);
       }}
       numberOfLines={numberOfLines}
+      leftIcon={leftIcon}
+      rightIcon={rightIcon}
     />
   );
 }
@@ -66,17 +73,16 @@ const style = StyleSheet.create({
     borderWidth: 1.5,
     borderRadius: 10,
     borderColor: colors.borderGrey,
+    backgroundColor: colors.lightGrey,
   },
   input: {
-    borderRadius: 10,
-    paddingLeft: 10,
     textAlignVertical: 'top',
-    backgroundColor: colors.lightGrey,
   },
   inputContainerFocus: {
     borderStyle: 'solid',
     borderWidth: 1.5,
     borderRadius: 10,
-    borderColor: colors.tiffanyBlue,
+    borderColor: colors.black,
+    backgroundColor: colors.lightGrey,
   },
 });
