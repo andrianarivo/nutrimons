@@ -6,10 +6,12 @@ import base from '../styles';
 
 interface PatientDetailsHeaderProps {
   patient: Patient;
+  onTakeNote?: () => void;
 }
 
 export default function PatientDetailsHeader({
   patient,
+  onTakeNote,
 }: PatientDetailsHeaderProps) {
   const [index, setIndex] = useState(0);
   return (
@@ -28,8 +30,9 @@ export default function PatientDetailsHeader({
       </View>
       <View style={style.actions}>
         <Button
-          containerStyle={style.takeNoteContainer}
-          buttonStyle={style.takeNote}
+          containerStyle={style.takeNote}
+          buttonStyle={base.button}
+          onPress={onTakeNote}
           size="lg">
           Take note
         </Button>
@@ -68,11 +71,8 @@ const style = StyleSheet.create({
     marginTop: 20,
     gap: 10,
   },
-  takeNoteContainer: {
-    flex: 1,
-  },
   takeNote: {
-    borderRadius: 15,
+    flex: 1,
   },
   bookmark: {
     borderRadius: 12,

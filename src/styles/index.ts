@@ -38,4 +38,7 @@ export default StyleSheet.create({
     justifyContent: 'space-between',
     marginTop: 10,
   },
+  button: {
+    borderRadius: 15,
+  },
 });

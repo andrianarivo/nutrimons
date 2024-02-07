@@ -26,7 +26,7 @@ export default function NoteFormHeader({
       <TextInput
         containerStyle={style.title}
         value={note.title}
-        placeholder={note.title}
+        placeholder={note.title || 'New Title'}
         onChangeText={handleChangeText}
         name="title"
         label={'Title'}
@@ -51,7 +51,7 @@ export default function NoteFormHeader({
       <TextInput
         multiline={true}
         label="Description"
-        placeholder={note.description}
+        placeholder={note.description || 'New Description'}
         value={note.description}
         onChangeText={handleChangeText}
         name="description"

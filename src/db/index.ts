@@ -80,6 +80,13 @@ const patients = [
           },
         ],
       },
+      {
+        id: 4,
+        date: '2024-02-06T18:55:00.000Z',
+        title: 'First visit',
+        description: 'First visit to the doctor',
+        duration: 10,
+      },
     ],
   },
 ];

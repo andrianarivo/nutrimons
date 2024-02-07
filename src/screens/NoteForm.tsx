@@ -7,6 +7,9 @@ import {FlatList} from 'react-native-gesture-handler';
 import NoteFormHeader from '../components/NoteFormHeader';
 import NoteFormFooter from '../components/NoteFormFooter';
 import {Button} from '@rneui/themed';
+import db from '../db';
+import {addNote, updateNote} from '../redux/notes/notesSlice';
+import {useAppDispatch} from '../hooks';
 
 type NoteFormNavigationProps = StackScreenProps<RootStackParamList, 'NoteForm'>;
 
@@ -17,7 +20,9 @@ interface NoteFormProp {
 
 export default function NoteForm({route}: NoteFormProp) {
   const originalNote = route.params.note;
+  const patientId = route.params.patientId;
   const [note, setNote] = React.useState(originalNote);
+  const dispatch = useAppDispatch();
 
   const handleChangeDate = (date: Date) => {
     note.date = date.toISOString();
@@ -56,6 +61,20 @@ export default function NoteForm({route}: NoteFormProp) {
     });
   };
 
+  const onSubmit = () => {
+    const patientIdx = db.patients.findIndex(it => it.id === patientId);
+    if (patientIdx) {
+      const target = db.patients[patientIdx]?.notes.findIndex(
+        it => it.id === note.id,
+      );
+      if (target > 0) {
+        dispatch(updateNote(note));
+      } else {
+        dispatch(addNote(note));
+      }
+    }
+  };
+
   return (
     <View style={style.container}>
       <View style={style.listContainer}>
@@ -87,11 +106,7 @@ export default function NoteForm({route}: NoteFormProp) {
           removeClippedSubviews={false}
         />
       </View>
-      <NoteFormFooter
-        onSubmit={() => {
-          console.log('submitted');
-        }}
-      />
+      <NoteFormFooter onSubmit={onSubmit} />
     </View>
   );
 }
